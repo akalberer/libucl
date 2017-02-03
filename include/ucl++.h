@@ -493,7 +493,7 @@ public:
 	{
 		return parse_from_file (filename, std::map<std::string, std::string>(), err);
 	}
-
+	
 	static Ucl parse_from_file (const std::string &filename, const std::map<std::string, std::string> &vars, std::string &err)
 	{
 		auto config_func = [&vars] (ucl_parser *parser) {
@@ -509,6 +509,26 @@ public:
 		return parse_with_strategy_function (config_func, parse_func, err);
 	}
 
+	static Ucl parse_from_file_strategy (const std::string &filename, enum ucl_duplicate_strategy strategy, std::string &err)
+	{
+		return parse_from_file_strategy (filename, std::map<std::string, std::string>(), strategy, err);
+	}
+	
+	static Ucl parse_from_file_strategy (const std::string &filename, const std::map<std::string, std::string> &vars, enum ucl_duplicate_strategy strategy, std::string &err)
+	{
+		auto config_func = [&vars] (ucl_parser *parser) {
+			for (const auto & item : vars) {
+				ucl_parser_register_variable (parser, item.first.c_str (), item.second.c_str ());
+			}
+		};
+
+		auto parse_func = [&] (ucl_parser *parser) {
+			return ucl_parser_add_file_strategy (parser, filename.c_str(), strategy);
+		};
+
+		return parse_with_strategy_function (config_func, parse_func, err);
+	}
+	
 	static Ucl parse_from_file (const std::string &filename, const variable_replacer &replacer, std::string &err)
 	{
 		auto config_func = [&replacer] (ucl_parser *parser) {
