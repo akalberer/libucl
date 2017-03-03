@@ -13,7 +13,7 @@ INCLUDE(FindOpenSSL)
 
 OPTION(ENABLE_URL_INCLUDE  "Enable urls in ucl includes (requires libcurl or libfetch) [default: OFF]" OFF)
 OPTION(ENABLE_URL_SIGN  "Enable signatures check in ucl includes (requires openssl) [default: OFF]" OFF)
-OPTION(BUILD_SHARED_LIBS "Build Shared Libraries [default: OFF]" ON)
+OPTION(BUILD_SHARED_LIBS "Build Shared Libraries [default: OFF]" OFF)
 OPTION(ENABLE_LUA "Enable lua support [default: OFF]" OFF)
 OPTION(ENABLE_LUAJIT "Enable luajit support [default: OFF]" OFF)
 
